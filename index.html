@@ -170,7 +170,7 @@
     <section>
       <div class="container">
         <div class="card border border-warning m-2">
-          <div class="card-body text-warning">
+          <div class="card-body text-warning" id="ecoforTrue">
             <p class="h5" id="terzeDueCifre">-</p>
           </div>
         </div>
@@ -206,23 +206,29 @@
 
       /////////////CARICO IL FILE JAVASCRIPT ESTERNO PER LE PRIME DUE CIFRE////////////////////////
       // Prime due cifre prese dal file js
-      let PrimeDueCifre = '';
+      let _primeDueCifre = '';
+
+      let _ecoforCER = '';
 
       $.getScript('/primeDueCifre.js').done(function(script, textStatus) {
-        PrimeDueCifre = cerPrimeCifre();
+        _primeDueCifre = cerPrimeCifre;
       });
 
-      let SecondeDueCifre = '';
+      let _secondeDueCifre = '';
 
       $.getScript('/secondeDueCifre.js').done(function(script, textStatus) {
-        SecondeDueCifre = cerSecondeCifre();
+        _secondeDueCifre = cerSecondeCifre;
       });
 
-      let TerzeDueCifre = '';
+      let _terzeDueCifre = '';
 
       $.getScript('/terzeDueCifre.js').done(function(script, textStatus) {
-        TerzeDueCifre = cerTerzeCifre();
+        _terzeDueCifre = cerTerzeCifre;
       });
+
+      $.getScript('/seiCifreEcoforDepuratore.js').done(function(script, textStatus){
+        _ecoforCER =  EcoforCER;
+      })
 
       /////////PRIMI PULSANTI/////////////////
 
@@ -230,9 +236,9 @@
         $primeDueCifre = $(this).text();
         cifreCer = $primeDueCifre;
         console.log(cifreCer);
-        console.log(SecondeDueCifre[cifreCer]);
+        console.log(_primeDueCifre[cifreCer]);
         $('#primeDueCifre').text(
-          $primeDueCifre + ' \n' + PrimeDueCifre[cifreCer]
+          $primeDueCifre + ' \n' + _primeDueCifre[cifreCer]
         );
       });
 
@@ -241,8 +247,8 @@
         $secondeDueCifre = $(this).text();
         cifreCer += $secondeDueCifre;
         console.log(cifreCer);
-        console.log(SecondeDueCifre[cifreCer]);
-        $('#secondeDueCifre').text(SecondeDueCifre[cifreCer]);
+        console.log(_secondeDueCifre[cifreCer]);
+        $('#secondeDueCifre').text(_secondeDueCifre[cifreCer]);
       });
 
       // Terze due cifre
@@ -250,30 +256,49 @@
         $TerzeDueCifre = $(this).text();
         cifreCer += $TerzeDueCifre;
         console.log(cifreCer);
-        console.log(TerzeDueCifre[cifreCer]);
-        $('#terzeDueCifre').text(TerzeDueCifre[cifreCer]);
+        
+        $('#terzeDueCifre').text(_terzeDueCifre[cifreCer]);
+
+        if (_terzeDueCifre[cifreCer] === _ecoforCER[cifreCer])
+        {
+          console.log("ecofor");
+          $('#ecoforTrue').addClass('bg-success');
+        }
       });
 
       $('#cancella_1').on('click', function() {
         cifreCer = '';
         $('#primeDueCifre').text('-');
         $('#secondeDueCifre').text('-');
-        $('#terzeDueCifre').text('-');
+        $('#terzeDueCifre')
+                  .text('-')
+                  .removeClass('bg-success');
+
       });
 
       $('input').keyup(function(e) {
         testoDigitato = $(this).val(); 
         console.log(testoDigitato);
-        $('#p_ricerca').text(PrimeDueCifre[testoDigitato]);
-        $('#p_ricerca1').text(SecondeDueCifre[testoDigitato]);
-        $('#p_ricerca2').text(TerzeDueCifre[testoDigitato]);
+        
+        $('#p_ricerca').text(_primeDueCifre[testoDigitato]);
+        $('#p_ricerca1').text(_secondeDueCifre[testoDigitato]);
+        $('#p_ricerca2').text(_terzeDueCifre[testoDigitato]);
+
+        if (typeof (_terzeDueCifre[testoDigitato]) !== 'undefined' && _terzeDueCifre[testoDigitato] === _ecoforCER[testoDigitato])
+        {
+          $('#p_ricerca2').addClass('bg-success');
+        } 
       });
 
       $('#cancella_ricerca').on('click', function(){
         $('#p_ricerca').text("-");
         $('#p_ricerca1').text("-");
-        $('#p_ricerca2').text("-");
+        $('#p_ricerca2')
+                  .text("-")
+                  .removeClass('bg-success');
+
         $('input').val("");
+
 
       })
 
@@ -294,5 +319,4 @@
       integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
       crossorigin="anonymous"
     ></script>
-  </body>
-</html>
+  </bod

@@ -1,4 +1,4 @@
-const secondeDueCifre = {
+const cerSecondeCifre = {
 "0101":"0101 Rifiuti prodotti dall'estrazione di minerali",
 "0103":"0103 rifiuti prodotti da trattamenti chimici e fisici di minerali metalliferi",
 "0104":"0104 rifiuti prodotti da trattamenti chimici e fisici di minerali non metalliferi",

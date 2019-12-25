@@ -1,4 +1,4 @@
-            const terzeDueCifre = {
+            const cerTerzeCifre = {
 			"010101":"010101 rifiuti da estrazione di minerali metalliferi",
             "010102":"010102 rifiuti da estrazione di minerali non metalliferi",
             "010304":"010304*sterili che possono generare acido prodotti dalla lavorazione di minerale solforoso",
